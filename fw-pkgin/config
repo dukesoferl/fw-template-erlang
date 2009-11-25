@@ -2,7 +2,7 @@
 # environment variable FW_PACKAGE_DEFAULT_MAINTAINER if non-empty
 
 FW_PACKAGE_NAME="fw-template-erlang"
-FW_PACKAGE_VERSION="0.1.47"
+FW_PACKAGE_VERSION="0.1.48"
 FW_PACKAGE_MAINTAINER="Paul Mineiro <paul-fw@mineiro.com>"
 FW_PACKAGE_SHORT_DESCRIPTION="Erlang template for framewerk."
 FW_PACKAGE_DESCRIPTION="`cat README`"
@@ -21,4 +21,6 @@ FW_PACKAGE_PROVIDES=""
 FW_PACKAGE_BUILD_DEPENDS="erlang-dev [!darwin-i386], erlang-otp [darwin-i386]"
 FW_PACKAGE_BUILD_CONFLICTS=""
 
-FW_DUPLOAD_ARGS=${FW_DUPLOAD_ARGS-"-t dukes"}
+FW_DUPLOAD_ARGS=${FW_DUPLOAD_ARGS-"-t dukeshardy"}
+
+FW_SUBVERSION_TAG_ROOT="https://fwtemplates.googlecode.com/svn/tags/fw-template-erlang"
