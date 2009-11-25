@@ -1,0 +1,90 @@
+#! /bin/sh
+
+if test -d ../fw/bin  
+  then
+    PATH="`pwd`/../fw/bin:$PATH"
+    export PATH
+  fi
+
+if test -z "$MAKE"
+  then
+    gmake=`which gmake`
+
+    if test $? = 0 
+      then
+        MAKE=gmake
+      else
+        MAKE=make
+      fi
+  fi
+
+(
+set -x
+rm -rf cvstmp
+mkdir cvstmp
+( 
+  cd cvstmp &&
+  cvs -d "`pwd`" init
+)
+test -h fw.local || ln -sf ../fw.local fw.local || exit 1
+test -h share || ln -sf .. share || exit 1
+rm -rf tmp 
+FW_ROOT="`pwd`"
+export FW_ROOT
+CVSROOT="`pwd`/cvstmp"
+export CVSROOT
+rm -rf megatmp
+(
+  mkdir megatmp &&
+  cd megatmp &&
+  fw-init --name tmp                                    \
+          --revision cvs                                \
+          --template erlang &&                          \
+  mv -f tmp .. &&                                       \
+  cd .. &&                                              \
+  rmdir megatmp                                         \
+) || exit 1
+cd tmp
+
+# disable the addition of fw-template-erlang to the BUILD_DEPENDS since it 
+# will not be installed at this point
+mkdir -p fw.local/template/erlang/ || exit 1
+cp "${FW_ROOT}/share/fw/build/automake/load-config" fw.local/template/erlang/ || \
+exit 1
+chmod +x fw.local/template/erlang/load-config || exit 1
+
+( cvs -n -q up | grep '^?' | grep -v fw.local ) && exit 1
+./bootstrap || exit 1
+( cvs -n -q up | grep '^?' | grep -v fw.local ) && exit 1
+./build || exit 1
+( cvs -n -q up | grep '^?' | grep -v fw.local ) && exit 1
+diff -q ../tmp.app src/tmp.app || exit 1
+touch src/.dialyzer_ok
+"${MAKE}" -s check || exit 1
+( cvs -n -q up | grep '^?' | grep -v fw.local ) && exit 1
+
+if test "@FW_NATIVE_PACKAGE_TYPE@" != none
+  then
+    "${MAKE}" "package-@FW_NATIVE_PACKAGE_TYPE@" || exit 1
+    ( cvs -n -q up | grep '^?' | grep -v fw.local ) && exit 1
+    fw-exec template/erlang/release-ok || exit 1
+    echo "dild" > src/tmp.app
+    fw-exec template/erlang/release-ok && exit 1
+  fi
+
+erl -noshell -noinput -eval "{ ok, { myapp, [ '0.0.0' ] } } = beam_lib:version (\"src/myapp.beam\")" -s erlang halt || exit 1
+
+perl -i -pe 'm%-behaviour% && print "-vsn (flass).\n"' src/myapp.erl || exit 1
+(cd src && "${MAKE}") || exit 1
+
+erl -noshell -noinput -eval "{ ok, { myapp, [ flass ] } } = beam_lib:version (\"src/myapp.beam\")" -s erlang halt || exit 1
+
+"${MAKE}" -s maintainer-clean
+( cvs -n -q up | grep '^?' | grep -v fw.local ) && exit 1
+test -z "`find . -name '*.am'`" || exit 1
+) > test-template.out 2>&1 || exit 1
+
+rm fw.local
+rm share
+rm -rf tmp
+rm -rf cvstmp

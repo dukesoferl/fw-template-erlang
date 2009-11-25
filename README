@@ -1,0 +1,5 @@
+Erlang template for framewerk.  Features:
+
+  * automatic generation of OTP compliant application file via scanning source.
+  * convenient eunit and cover integration.
+  * edoc integration.

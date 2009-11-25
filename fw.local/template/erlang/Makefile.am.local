@@ -1,0 +1,24 @@
+SUBDIRS += src doc tests
+
+# put whatever (auto)make commands here, they will be included from Makefile.am
+
+dist_template_DATA = 			\
+  Makefile_dot_am			\
+  Makefile.otp   			\
+  configure.ac				\
+  oldrecord_trans.erl			\
+  oldrecord_trans.beam			\
+  vsn_trans.erl				\
+  vsn_trans.beam
+
+dist_template_SCRIPTS +=		\
+  check-app-file			\
+  fwte-makeappfile			\
+  make-app-file				\
+  make-post-install			\
+  make-pre-remove			\
+  make-post-remove
+
+ERLCFLAGS = +debug_info 
+
+include Makefile.otp

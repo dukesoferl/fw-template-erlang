@@ -1,0 +1,31 @@
+can use error return value from parse transform for nicer fail
+BUG: auto-generated vsn tags are not updated when version is bumped w/o make clean or file changes
+
+add *.hrl to EXTRA_DIST in tests/
+BUG:oldrecord_trans doesn't look at is_record guard calls
+show all errors in oldrecord_trans before exiting
+ensure cleanup of make-appfile-$$
+include is symlink to src
+(FW_)DIALYZERFLAGS += @FW_EUNIT_ERLCFLAGS@
+when upgrade is downgrade, don't exit 1 to old handler in make-hooks
+generate start/0
+single pass to get registered, modules, and start: 3x faster!
+
+BUG: dependency generation for erlang:
+  * behaviours need to be compiled first
+  * .erl files might depend upon .hrl files files
+BUG: generate automatic dependency on erlang (or erlang-otp in fink?)
+
+make directory structure look like otp, e.g., ebin, include, etc.?
+
+--enable-coverage argument
+        * seems like +debug_info slows things down so don't always want it
+
+install a supervisor and gen_server as part of the installed files
+
+-depends() for erlrc integration w/parse-transform default goodness
+
+http://www.gnu.org/software/autoconf/manual/html_node/Erlang-Compiler-and-Interp
+reter.html
+       
+http://www.gnu.org/software/autoconf/manual/html_node/Erlang-Libraries.html

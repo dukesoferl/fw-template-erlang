@@ -1,0 +1,162 @@
+Version 0.1.47:
+  * don't prefix app extra with comma
+
+Version 0.1.46:
+  * .app_ok check
+
+Version 0.1.45:
+  * handle prereqs (and other) variables correctly in make-app-file
+
+Version 0.1.44:
+  * handle parametrized modules in fwte-makeappfile
+
+Version 0.1.43:
+  * purge debian-specific stuff from package hooks
+
+Version 0.1.42:
+  * fix module line logic in make-app-file (again)
+
+Version 0.1.41:
+  * fix detection of start module
+
+Version 0.1.40:
+  * reduce computation of app file from 3 passes to 1
+
+Version 0.1.39:
+  * compare package versions and invoke erlrc-{up,down}grade correctly
+    from postinst, prerm
+
+Version 0.1.38:
+  * automatically += FW_EUNIT_CFLAGS to DIALYZERFLAGS
+
+Version 0.1.37:
+  * add per-file DIALYZERFLAGS
+  * initialize DIALYZERFLAGS to support += and environment var
+
+Version 0.1.36:
+  * add FW_EDOC_OPTIONS to doc/Makefile.am
+
+Version 0.1.35:
+  * less spammy on tmp
+
+Version 0.1.34:
+  * actually execute original post-remove
+
+Version 0.1.33:
+  * oldrecord parse transform for safer code upgrade with state migration.
+
+Version 0.1.32:
+  * check generated app file for syntactic correctness
+
+Version 0.1.31:
+  * always cleanup .flass in otp-test-wrapper.sh
+  * HAVE_EUNIT compiler variable
+
+Version 0.1.30:
+  * ERL_CRASH_DUMP=/dev/null by default in otp-test-wrapper.sh
+  * --disable-erlrc configure option
+
+Version 0.1.29
+  * insulate make-app-file from compiler output to stdout
+      (sometimes parse transforms do this)
+  * allow -behavior as well as -behaviour
+  * -fwskip() attribute to ignore a file for .app file creation
+
+Version 0.1.28
+  * don't depend upon escript, it's a recent innovation
+
+Version 0.1.27 
+  * have vsn_trans "work" (i.e. break normally) with no module declaration
+  * use erlang to parse erlang (not perl!)
+
+Version 0.1.26
+  * add -vsn (FW_PACKAGE_VERSION) attribute to files not specifying -vsn
+
+Version 0.1.25
+  * have erlrc hooks work with test packages
+
+Version 0.1.24
+  * fix bug in generated pre-remove
+
+Version 0.1.23
+  * utilize package hook construction api
+
+Version 0.1.22
+  * erlrc integration
+
+Version 0.1.21
+  * FW_DUPLOAD_ARGS override
+  * annotate fw-pkgin/config with extra variables.
+
+Version 0.1.20
+  * make dist fix
+  * bsd gmake fix
+
+Version 0.1.19
+  * Build with latest framewerk (pick up enhancements).
+
+Version 0.1.18
+  * set to architecture independent during init
+
+Version 0.1.17
+  * add $(wildcard *.erl) to EXTRA_DIST in tests/
+
+Version 0.1.16
+  * add $(check_DATA) to EXTRA_DIST (freebsd's dialyzer is broken)
+
+Version 0.1.15
+  * add '-pa ../src' to default erlang compile flags
+
+Version 0.1.14
+  * add all .erl -> .beam files to check_SCRIPTS
+
+Version 0.1.13
+  * allow AC_SUBST'd variables in app template as well as computed variables
+
+Version 0.1.12
+  * fix 'make dist'
+
+Version 0.1.11
+  * make { mod, ... } declaration optional in app file
+  * add commas as necessary to application prereqs in app file
+  * substitute arbitrary extra stuff in app file
+
+Version 0.1.10
+  * regenerate app file whenever source changes, not just at configure time
+
+Version 0.1.9
+  * add (local) .hrl dependency for real
+
+Version 0.1.8
+  * add (local) .hrl dependency to Makefile.otp 
+  * include otp-test-wrapper.sh in dist
+  * add FW_TEMPLATE_ERLANG_CHECK_MODULE
+
+Version 0.1.7
+  * add dependencies
+
+Version 0.1.6
+  * remove problematic module-% dependency
+  * add Makefile.otp to MAINTAINERCLEANFILES
+
+Version 0.1.5
+  * Enable async-thread-pool in otp-test-wrapper.
+
+Version 0.1.4
+  * Ditch (unused) pkg-config stuff.
+
+Version 0.1.3
+  * Recognize all gen[^:]+:start(_link)? as registering processes.
+
+Version 0.1.2
+  * Redirect module-X test output to X.test.out
+
+Version 0.1.1
+  * Allow for distributed tests in otp-test-wrapper.
+
+Version 0.1.0
+  * Added .P target to Makefile.otp
+  * Bug fix: gen_server:start_link/4 is like register/2.
+
+Version 0.0.0
+  * Initial version.

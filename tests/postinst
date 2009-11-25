@@ -1,0 +1,58 @@
+#! /bin/sh
+
+compare_versions="dpkg --compare-versions"
+
+canonicalize () {
+  perl -e '($_) = @ARGV; s/-TEST1$//; print $_' -- "$1"
+}
+
+
+
+operation="$1"
+
+case "$operation" in
+  configure)
+    most_recently_configured_version="$2"
+    canon_most_recently_configured_version="`canonicalize \"$most_recently_configured_version\"`"
+    
+    which erlrc-start >/dev/null 2>/dev/null
+    
+    test $? -ne 0 ||     erlrc-start "tmp" "0.0.0" ||     exit 1
+
+    ;;
+  abort-upgrade)
+    new_version="$2"
+    canon_new_version="`canonicalize \"$new_version\"`"
+    
+    if $compare_versions       "0.0.0" lt "$canon_new_version"; then
+      # aborted package upgrade was to a later version; downgrade to original
+      which erlrc-downgrade >/dev/null 2>/dev/null
+      test $? -ne 0 ||       erlrc-downgrade "tmp" "0.0.0" "$canon_new_version" ||       exit 1
+    else
+      # aborted package upgrade was to an earlier version; upgrade to original
+      which erlrc-upgrade >/dev/null 2>/dev/null
+      test $? -ne 0 ||       erlrc-upgrade "tmp" "$canon_new_version" "0.0.0" ||       exit 1
+    fi
+
+    ;;
+  abort-remove)
+    
+    which erlrc-start >/dev/null 2>/dev/null
+    
+    test $? -ne 0 ||     erlrc-start "tmp" "0.0.0" ||     exit 1
+
+    ;;
+  *)
+    ;;
+esac
+
+
+if test -x "/usr/libexec/fw/tmp-0.0.0/post-install.orig"
+  then
+    set -e
+    "/usr/libexec/fw/tmp-0.0.0/post-install.orig" "$@" 
+    set +e
+  fi
+
+
+exit 0

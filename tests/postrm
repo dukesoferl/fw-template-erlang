@@ -1,0 +1,71 @@
+#! /bin/sh
+
+compare_versions="dpkg --compare-versions"
+
+case "$1" in
+  upgrade)
+    exit 1 # defer to new package's version
+    ;;
+  *)
+    ;;
+esac
+
+canonicalize () {
+  perl -e '($_) = @ARGV; s/-TEST1$//; print $_' -- "$1"
+}
+
+
+
+operation="$1"
+
+case "$operation" in
+  remove)
+    
+    ;;
+  purge)
+    
+    ;;
+  failed-upgrade)
+    old_version="$2"
+    canon_old_version="`canonicalize \"$old_version\"`"
+    
+    if $compare_versions             "$canon_old_version" lt "0.0.0" ; then
+      # package upgrade is to a later version; invoke erlrc-upgrade
+      which erlrc-upgrade >/dev/null 2>/dev/null
+      test $? -ne 0 ||       erlrc-upgrade "tmp" "$canon_old_version" "0.0.0" ||       exit 1
+    else
+      # package upgrade is to an earlier version; invoke erlrc-downgrade
+      which erlrc-downgrade >/dev/null 2>/dev/null
+      test $? -ne 0 ||       erlrc-downgrade "tmp" "0.0.0" "$canon_old_version" ||       exit 1
+    fi
+
+    ;;
+  abort-install)
+    old_version="$2"
+    canon_old_version="`canonicalize \"$old_version\"`"
+    
+    ;;
+  abort-upgrade)
+    old_version="$2"
+    canon_old_version="`canonicalize \"$old_version\"`"
+    
+    ;;
+  disappear)
+    
+    ;;
+  *)
+    ;;
+esac
+
+
+TMPDIR=${TMPDIR-"/tmp"}
+
+if test -x "${TMPDIR}/.tmp.0.0.0.post-remove.orig"
+  then
+    set -e
+    "${TMPDIR}/.tmp.0.0.0.post-remove.orig" "$@" 
+    set +e
+  fi
+
+
+exit 0

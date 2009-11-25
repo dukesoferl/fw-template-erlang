@@ -1,0 +1,79 @@
+#! /bin/sh
+
+test "x@FW_NATIVE_PACKAGE_TYPE@" = xdeb || exit 77
+
+if test -d ../fw/bin
+  then
+    PATH="`pwd`/../fw/bin:$PATH"
+    export PATH
+  fi
+
+if test -z "$MAKE"
+  then
+    gmake=`which gmake`
+
+    if test $? = 0 
+      then
+        MAKE=gmake
+      else
+        MAKE=make
+      fi
+  fi
+
+cleanup () {
+  trap - EXIT
+  rm fw.local
+  rm share
+  rm -rf tmp
+}
+
+trap cleanup EXIT
+set -e
+
+(
+set -x
+set -e
+test -h fw.local || ln -sf ../fw.local fw.local 
+test -h share || ln -sf .. share 
+rm -rf tmp 
+FW_ROOT="`pwd`"
+export FW_ROOT
+rm -rf megatmp
+
+mkdir megatmp &&                                        \
+cd megatmp &&                                           \
+fw-init --name tmp                                      \
+        --revision none                                 \
+        --template erlang &&                            \
+mv -f tmp .. &&                                         \
+cd .. &&                                                \
+rmdir megatmp
+
+cd tmp
+
+# disable the addition of fw-template-erlang to the BUILD_DEPENDS since it 
+# will not be installed at this point
+mkdir -p fw.local/template/erlang/ 
+cp "${FW_ROOT}/share/fw/build/automake/load-config" fw.local/template/erlang/ 
+chmod +x fw.local/template/erlang/load-config 
+
+./bootstrap && ./build --disable-erlrc && env FW_SKIP_TESTS=1 "${MAKE}" package 
+dpkg --control fw-pkgout/tmp_0.0.0-TEST1_all.deb
+for x in postinst postrm preinst prerm
+  do
+    diff -u ../${x}.noerlrc DEBIAN/$x || exit 1
+    "@CHECK_SHELL@" -n DEBIAN/$x || exit 1
+  done
+dpkg --contents fw-pkgout/tmp_0.0.0-TEST1_all.deb | grep erlrc >/dev/null && exit 1
+
+./build && env FW_SKIP_TESTS=1 "${MAKE}" package 
+dpkg --control fw-pkgout/tmp_0.0.0-TEST1_all.deb
+for x in postinst postrm preinst prerm
+  do
+    diff -u ../$x DEBIAN/$x || exit 1
+    "@CHECK_SHELL@" -n DEBIAN/$x || exit 1
+  done
+dpkg --contents fw-pkgout/tmp_0.0.0-TEST1_all.deb | grep erlrc >/dev/null || exit 1
+) > test-hooks.out 2>&1 || exit 1
+
+exit 0

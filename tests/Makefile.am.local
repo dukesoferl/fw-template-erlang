@@ -1,0 +1,20 @@
+# put whatever (auto)make commands here, they will be included from Makefile.am
+
+check_SCRIPTS += 	\
+  test-hooks		\
+  test-oldrecord.sh
+
+CLEANFILES +=		\
+  $(wildcard *.beam)	\
+  test-oldrecord.out
+
+EXTRA_DIST +=		\
+  postinst		\
+  postrm		\
+  preinst		\
+  prerm			\
+  tmp.app		\
+  $(wildcard *.erl)
+
+noinst_DATA =		\
+  $(patsubst %, .%.script_ok, postinst postrm preinst prerm)

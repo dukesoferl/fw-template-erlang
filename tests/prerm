@@ -1,0 +1,64 @@
+#! /bin/sh
+
+compare_versions="dpkg --compare-versions"
+
+case "$1" in
+  upgrade)
+    exit 1 # defer to new package's version
+    ;;
+  *)
+    ;;
+esac
+
+canonicalize () {
+  perl -e '($_) = @ARGV; s/-TEST1$//; print $_' -- "$1"
+}
+
+
+TMPDIR=${TMPDIR-"/tmp"}
+
+if which md5sum >/dev/null 2>/dev/null
+  then
+    md5sum=md5sum
+  else
+    md5sum=echo
+fi
+  
+if test -x "/usr/libexec/fw/tmp-0.0.0/post-remove.orig" &&                      test `$md5sum "/usr/libexec/fw/tmp-0.0.0/post-remove.orig" |                     cut -f1 -d' '` != 638ac0310ac8cd76eeaadb8d9b18a345
+  then
+    cp -f "/usr/libexec/fw/tmp-0.0.0/post-remove.orig" "${TMPDIR}"/.tmp.0.0.0.post-remove.orig
+  fi
+
+if test -x "/usr/libexec/fw/tmp-0.0.0/pre-remove.orig"
+  then
+    set -e
+    "/usr/libexec/fw/tmp-0.0.0/pre-remove.orig" "$@" 
+    set +e
+  fi
+
+
+operation="$1"
+
+case "$operation" in
+  remove)
+    
+    which erlrc-stop >/dev/null 2>/dev/null
+
+    test $? -ne 0 ||     erlrc-stop "tmp" "0.0.0" ||     exit 1
+
+    ;;
+  failed-upgrade)
+    old_version="$2"
+    canon_old_version="`canonicalize \"$old_version\"`"
+    
+    ;;
+  deconfigure)
+    
+    ;;
+  *)
+    ;;
+esac
+
+
+
+exit 0

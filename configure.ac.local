@@ -1,0 +1,10 @@
+dnl -- include additional autoconf commands here
+dnl -- do not include AC_OUTPUT, this is called for you
+
+AC_CONFIG_FILES([fw.local/m4/Makefile
+                 fw.local/template/erlang/doc/Makefile
+                 fw.local/template/erlang/src/Makefile
+                 fw.local/template/erlang/tests/Makefile])
+
+AC_CONFIG_FILES([tests/test-hooks],
+                [chmod +x tests/test-hooks])
