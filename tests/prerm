@@ -15,7 +15,7 @@ canonicalize () {
 }
 
 
-TMPDIR=${TMPDIR-"/tmp"}
+TMPDIR=${TMPDIR:-"/tmp"}
 
 if which md5sum >/dev/null 2>/dev/null
   then

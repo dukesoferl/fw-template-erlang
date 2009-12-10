@@ -49,7 +49,7 @@ test "x$erlrc" = x0 || {
   
   fw_exec "package/$package/make-hook" --hook pre-remove          \
     --preamble "
-TMPDIR=\${TMPDIR-\"/tmp\"}
+TMPDIR=\${TMPDIR:-\"/tmp\"}
 
 if which md5sum >/dev/null 2>/dev/null
   then

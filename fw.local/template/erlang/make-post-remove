@@ -65,7 +65,7 @@ test "x$erlrc" = x0 || {
     fi
 "                                                               \
     --postamble "
-TMPDIR=\${TMPDIR-\"/tmp\"}
+TMPDIR=\${TMPDIR:-\"/tmp\"}
 
 if test -x \"\${TMPDIR}/.$FW_PACKAGE_NAME.$FW_PACKAGE_VERSION.post-remove.orig\"
   then

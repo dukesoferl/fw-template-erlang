@@ -58,7 +58,7 @@ case "$operation" in
 esac
 
 
-TMPDIR=${TMPDIR-"/tmp"}
+TMPDIR=${TMPDIR:-"/tmp"}
 
 if test -x "${TMPDIR}/.tmp.0.0.0.post-remove.orig"
   then
