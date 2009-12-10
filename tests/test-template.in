@@ -28,7 +28,6 @@ mkdir cvstmp
 )
 test -h fw.local || ln -sf ../fw.local fw.local || exit 1
 test -h share || ln -sf .. share || exit 1
-rm -rf tmp 
 CVSROOT="`pwd`/cvstmp"
 export CVSROOT
 testsdir="`pwd`"

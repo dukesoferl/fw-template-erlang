@@ -39,40 +39,34 @@ mkdir cvstmp
 )
 test -h fw.local || ln -sf ../fw.local fw.local || exit 1
 test -h share || ln -sf .. share || exit 1
-rm -rf tmp 
 CVSROOT="`pwd`/cvstmp"
 export CVSROOT
-FW_ROOT="`pwd`"
+testsdir="`pwd`"
 rm -rf megatmp
-(
+{
   mkdir megatmp &&
   cd megatmp &&
-  env FW_ROOT="$FW_ROOT"                                \
+  env FW_ROOT="$testsdir"                               \
   fw-init --name tmp                                    \
           --revision cvs                                \
-          --template erlang &&                          \
-  mv -f tmp .. &&                                       \
-  cd .. &&                                              \
-  rmdir megatmp                                         \
-) || exit 1
+          --template erlang 
+} || exit 1
 cd tmp
 rm -f fw
 mkdir fw
 cwd=`pwd`
 mkdir fw/bin
-cp `env PATH="../../fw/bin:$PATH" which fw-bootstrap` fw/bin
-cp `env PATH="../../fw/bin:$PATH" which fw-exec` fw/bin
-cp `env PATH="../../fw/bin:$PATH" which fw-init` fw/bin
-cp `env PATH="../../fw/bin:$PATH" which fw-package` fw/bin
-(cd "../../fw"; find . -print | cpio -pvd "$cwd/fw")
-(cd "../../fw.local"; find template -print | cpio -pvd "$cwd/fw")
-(cd "../../fw.local"; find m4 -print | cpio -pvd "$cwd/fw")
-ls -l
-ls -l fw
+cp `env PATH="../../../fw/bin:$PATH" which fw-bootstrap` fw/bin
+cp `env PATH="../../../fw/bin:$PATH" which fw-exec` fw/bin
+cp `env PATH="../../../fw/bin:$PATH" which fw-init` fw/bin
+cp `env PATH="../../../fw/bin:$PATH" which fw-package` fw/bin
+(cd "../../../fw"; find . -print | cpio -pvd "$cwd/fw")
+(cd "../../../fw.local"; find template -print | cpio -pvd "$cwd/fw")
+(cd "../../../fw.local"; find m4 -print | cpio -pvd "$cwd/fw")
 
 # disable the addition of fw-template-erlang to the BUILD_DEPENDS since it 
 # will not be installed at this point
-cp "${FW_ROOT}/share/fw/build/automake/load-config" fw/template/erlang/ || \
+cp "${testsdir}/share/fw/build/automake/load-config" fw/template/erlang/ || \
 exit 1
 chmod +x fw/template/erlang/load-config || exit 1
 
@@ -84,7 +78,7 @@ case "@FW_NATIVE_PACKAGE_TYPE@" in
 
     for x in postinst postrm preinst prerm
       do
-        diff -u ../${x}.noerlrc DEBIAN/$x || exit 1
+        diff -u ../../${x}.noerlrc DEBIAN/$x || exit 1
         "@CHECK_SHELL@" -n DEBIAN/$x || exit 1
       done
     dpkg --contents fw-pkgout/tmp_0.0.0-TEST1_all.deb | \
@@ -108,7 +102,7 @@ case "@FW_NATIVE_PACKAGE_TYPE@" in
     dpkg --control fw-pkgout/tmp_0.0.0-TEST1_all.deb
     for x in postinst postrm preinst prerm
       do
-        diff -u ../$x DEBIAN/$x || exit 1
+        diff -u ../../$x DEBIAN/$x || exit 1
         "@CHECK_SHELL@" -n DEBIAN/$x || exit 1
       done
     dpkg --contents fw-pkgout/tmp_0.0.0-TEST1_all.deb | \
