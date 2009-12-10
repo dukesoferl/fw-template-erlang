@@ -31,37 +31,32 @@ test -h share || ln -sf .. share || exit 1
 rm -rf tmp 
 CVSROOT="`pwd`/cvstmp"
 export CVSROOT
-FW_ROOT="`pwd`"
+testsdir="`pwd`"
 rm -rf megatmp
-(
+{ 
   mkdir megatmp &&
   cd megatmp &&
-  env FW_ROOT="$FW_ROOT"                                \
+  env FW_ROOT="$testsdir"                               \
   fw-init --name tmp                                    \
           --revision cvs                                \
-          --template erlang &&                          \
-  mv -f tmp .. &&                                       \
-  cd .. &&                                              \
-  rmdir megatmp                                         \
-) || exit 1
+          --template erlang 
+} || exit 1
 cd tmp
 rm -f fw
 mkdir fw
 cwd=`pwd`
 mkdir fw/bin
-cp `env PATH="../../fw/bin:$PATH" which fw-bootstrap` fw/bin
-cp `env PATH="../../fw/bin:$PATH" which fw-exec` fw/bin
-cp `env PATH="../../fw/bin:$PATH" which fw-init` fw/bin
-cp `env PATH="../../fw/bin:$PATH" which fw-package` fw/bin
-(cd "../../fw"; find . -print | cpio -pvd "$cwd/fw")
-(cd "../../fw.local"; find template -print | cpio -pvd "$cwd/fw")
-(cd "../../fw.local"; find m4 -print | cpio -pvd "$cwd/fw")
-ls -l
-ls -l fw
+cp `env PATH="../../../fw/bin:$PATH" which fw-bootstrap` fw/bin
+cp `env PATH="../../../fw/bin:$PATH" which fw-exec` fw/bin
+cp `env PATH="../../../fw/bin:$PATH" which fw-init` fw/bin
+cp `env PATH="../../../fw/bin:$PATH" which fw-package` fw/bin
+(cd "../../../fw"; find . -print | cpio -pvd "$cwd/fw")
+(cd "../../../fw.local"; find template -print | cpio -pvd "$cwd/fw")
+(cd "../../../fw.local"; find m4 -print | cpio -pvd "$cwd/fw")
 
 # disable the addition of fw-template-erlang to the BUILD_DEPENDS since it 
 # will not be installed at this point
-cp "${FW_ROOT}/share/fw/build/automake/load-config" fw/template/erlang/ || \
+cp "${testsdir}/share/fw/build/automake/load-config" fw/template/erlang/ || \
 exit 1
 chmod +x fw/template/erlang/load-config || exit 1
 
@@ -70,7 +65,7 @@ chmod +x fw/template/erlang/load-config || exit 1
 ( cvs -n -q up | grep '^?' ) && exit 1
 ./build || exit 1
 ( cvs -n -q up | grep '^?' ) && exit 1
-diff -q ../tmp.app src/tmp.app || exit 1
+diff -q ../../tmp.app src/tmp.app || exit 1
 touch src/.dialyzer_ok
 "${MAKE}" -s check || exit 1
 ( cvs -n -q up | grep '^?' ) && exit 1
@@ -99,5 +94,5 @@ test -z "`find . -name '*.am'`" || exit 1
 
 rm fw.local
 rm share
-rm -rf tmp
+rm -rf megatmp
 rm -rf cvstmp
