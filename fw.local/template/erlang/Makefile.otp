@@ -39,7 +39,18 @@ DIALYZERFLAGS += @FW_EUNIT_ERLCFLAGS@
 	touch $@
 
 .%.app_ok: %.app
-	@fw-exec template/erlang/check-app-file $<
+	@savedir="`pwd`";						\
+	cd @top_srcdir@ && {						\
+          if test -d fw/bin;                    			\
+            then                                			\
+              PATH="`pwd`/fw/bin:$$PATH";       			\
+              export PATH;                      			\
+	      FW_ROOT="`pwd`/fw";					\
+	      export FW_ROOT;						\
+	      (cd fw && ln -sf .. share);				\
+            fi;                                 			\
+        };								\
+	cd $$savedir && fw-exec template/erlang/check-app-file $<
 	@touch $@
 
 .PHONY: check-script-escript-%
