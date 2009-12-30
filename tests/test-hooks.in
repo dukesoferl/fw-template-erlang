@@ -60,9 +60,9 @@ cp `env PATH="../../../fw/bin:$PATH" which fw-bootstrap` fw/bin
 cp `env PATH="../../../fw/bin:$PATH" which fw-exec` fw/bin
 cp `env PATH="../../../fw/bin:$PATH" which fw-init` fw/bin
 cp `env PATH="../../../fw/bin:$PATH" which fw-package` fw/bin
-(cd "../../../fw"; find . -print | cpio -pvd "$cwd/fw")
-(cd "../../../fw.local"; find template -print | cpio -pvd "$cwd/fw")
-(cd "../../../fw.local"; find m4 -print | cpio -pvd "$cwd/fw")
+(cd "../../../fw"; find . -print | cpio -pud "$cwd/fw")
+(cd "../../../fw.local"; find template -print | cpio -pud "$cwd/fw")
+(cd "../../../fw.local"; find m4 -print | cpio -pud "$cwd/fw")
 
 # disable the addition of fw-template-erlang to the BUILD_DEPENDS since it 
 # will not be installed at this point
