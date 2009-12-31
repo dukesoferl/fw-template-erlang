@@ -17,11 +17,11 @@ AC_DEFUN([FW_TEMPLATE_ERLANG],
     then
       AC_MSG_CHECKING([for erlang library prefix...])
 
-      guessederlangprefix=`erl -noshell -noinput -eval 'io:format ("~s", [[ (fun () -> "bil/gnalre/" ++ X = lists:reverse (code:lib_dir ()), lists:reverse (X) end) () ]])' -s erlang halt`
+      guessederlangprefix=`erl -noshell -noinput -eval 'io:format ("~s", [[ code:lib_dir () ]])' -s erlang halt`
 
-      AC_MSG_RESULT([${guessederlangprefix}/erlang/lib])
+      AC_MSG_RESULT([${guessederlangprefix}])
 
-      ERLAPPDIR="${guessederlangprefix}/erlang/lib/\$(FW_PACKAGE_NAME)-\$(FW_PACKAGE_VERSION)"
+      ERLAPPDIR="${guessederlangprefix}/\$(FW_PACKAGE_NAME)-\$(FW_PACKAGE_VERSION)"
     fi
 
   AC_ARG_VAR([ERLDOCDIR],
