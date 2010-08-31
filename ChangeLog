@@ -1,5 +1,7 @@
-Version 0.1.51: [ NYR ]
+Version 0.1.51:
   * improved ERLAPPDIR default
+  * No license, the web page claimed new BSD but a COPYING file wasn't in
+  place with the license, so talked to Paul about it, then added it.
 
 Version 0.1.50:
   * default ERLAPPDIR by querying installed erlang
