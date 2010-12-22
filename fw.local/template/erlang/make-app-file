@@ -111,7 +111,7 @@ if test -n "$FW_ERL_PREREQ_APPLICATIONS_EXTRA"
   fi
 
 eval \"\$fwte_makeappfile\"                                             \
-                    --application \"\${FW_PACKAGE_NAME}\"               \
+                    --application \"\${FW_ERL_APP_NAME}\"               \
                     --description \"\${FW_PACKAGE_SHORT_DESCRIPTION}\"  \
                     --version \"\${FW_PACKAGE_VERSION}\"                \
                     $modules                                            \
@@ -120,4 +120,4 @@ eval \"\$fwte_makeappfile\"                                             \
                     $modline                                            \
                     --env \"\$FW_ERL_APP_ENVIRONMENT\"                  \
                     $extra                                              \
-                    src/*.erl > "src/${FW_PACKAGE_NAME}.app"
+                    src/*.erl > "src/${FW_ERL_APP_NAME}.app"

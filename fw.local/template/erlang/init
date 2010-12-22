@@ -126,6 +126,10 @@ for dir in doc src tests
   cd fw-pkgin &&
   cat <<'EOD' >> config
 
+# uncomment and set manually if you want the application name to be different
+# from FW_PACKAGE_NAME, application name must consist of characters [a-zA-Z_]
+# FW_ERL_APP_NAME=""
+
 # uncomment and set manually if autodetection of modules is incorrect.
 # should be an erlang expression which evaluates to a list.
 # FW_ERL_APP_MODULES="[]"

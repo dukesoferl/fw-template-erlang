@@ -44,14 +44,14 @@ eval `fw_exec "template/erlang/load-config"`
 
 test $? = 0 || exit 1
 
-test ! -e "src/${FW_PACKAGE_NAME}.app" ||                       \
+test ! -e "src/${FW_ERL_APP_NAME}.app" ||                       \
 ERL_CRASH_DUMP=/dev/null erl -noshell -noinput -eval '
   { ok, [ { application, _, _ } ] } = 
     file:consult (hd (init:get_plain_arguments ())).
-' -s erlang halt -extra "src/${FW_PACKAGE_NAME}.app"            \
+' -s erlang halt -extra "src/${FW_ERL_APP_NAME}.app"            \
   >/dev/null 2>/dev/null ||                                     \
 {
-  echo "erlang/release-ok: warning: app file 'src/${FW_PACKAGE_NAME}.app' is invalid" 1>&2
+  echo "erlang/release-ok: warning: app file 'src/${FW_ERL_APP_NAME}.app' is invalid" 1>&2
   exit 1
 }
 

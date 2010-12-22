@@ -157,7 +157,7 @@ pattern_field (Pf = { record_field, _Lf, _, P }) ->
   P = pattern (P),
   Pf.
 
-guard ([ G0 | Gs ]) when list (G0) ->
+guard ([ G0 | Gs ]) when is_list (G0) ->
   [ guard0 (G0) | guard (Gs) ];
 guard (L) ->
   guard0 (L).

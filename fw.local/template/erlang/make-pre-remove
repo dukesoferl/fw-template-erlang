@@ -76,7 +76,7 @@ if test -x \"${hookdir}/pre-remove.orig\"
     which erlrc-stop >/dev/null 2>/dev/null
 
     test \$? -ne 0 || \
-    erlrc-stop \"$FW_PACKAGE_NAME\" \"$FW_PACKAGE_VERSION\" || \
+    erlrc-stop \"$FW_ERL_APP_NAME\" \"$FW_PACKAGE_VERSION\" || \
     exit 1
 " > "${destdir}/${hookdir}/pre-remove" &&                       \
   chmod +x "${destdir}/${hookdir}/pre-remove"
