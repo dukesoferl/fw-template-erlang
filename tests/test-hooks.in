@@ -66,9 +66,7 @@ cp `env PATH="../../../fw/bin:$PATH" which fw-package` fw/bin
 
 # disable the addition of fw-template-erlang to the BUILD_DEPENDS since it 
 # will not be installed at this point
-cp "${testsdir}/share/fw/build/automake/load-config" fw/template/erlang/ || \
-exit 1
-chmod +x fw/template/erlang/load-config || exit 1
+perl -pi -e 's/^.*fw-template-erlang.*$//g' fw/template/erlang/load-config
 
 ./bootstrap && ./build --disable-erlrc && env FW_SKIP_TESTS=1 "${MAKE}" package 
 

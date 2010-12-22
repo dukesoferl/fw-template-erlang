@@ -1,7 +1,7 @@
 SUBDIRS =
 
 .run_edoc: overview.edoc $(wildcard ../src/*.erl)
-	(cd .. && erl -eval 'edoc:application (@FW_PACKAGE_NAME@, ".", [ @FW_EDOC_OPTIONS@ ])' -noshell -s init stop)
+	(cd .. && erl -eval 'edoc:application (@FW_ERL_APP_NAME@, ".", [ @FW_EDOC_OPTIONS@ ])' -noshell -s init stop)
 	@touch $@
 
 noinst_DATA =			\

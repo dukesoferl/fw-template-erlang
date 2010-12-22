@@ -1,4 +1,4 @@
-{ application, @FW_PACKAGE_NAME@,
+{ application, @FW_ERL_APP_NAME@,
   [ 
     { description, "@FW_PACKAGE_SHORT_DESCRIPTION@" }, 
     { vsn, "@FW_PACKAGE_VERSION@" },

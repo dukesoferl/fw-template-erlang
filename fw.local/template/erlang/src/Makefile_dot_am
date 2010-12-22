@@ -1,6 +1,6 @@
 SUBDIRS =
 
-@FW_PACKAGE_NAME@.app: $(wildcard *.erl) $(wildcard *.hrl) Makefile fw-erl-app-template.app
+@FW_ERL_APP_NAME@.app: $(wildcard *.erl) $(wildcard *.hrl) Makefile fw-erl-app-template.app
 	@cd @top_srcdir@ && {						\
           if test -d fw/bin;                    			\
             then                                			\
@@ -15,7 +15,7 @@ SUBDIRS =
 
 CLEANFILES =			\
   fw-erl-app-template.app	\
-  @FW_PACKAGE_NAME@.app
+  @FW_ERL_APP_NAME@.app
 
 MAINTAINERCLEANFILES = 		\
   Makefile.am			\

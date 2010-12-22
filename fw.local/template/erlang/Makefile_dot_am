@@ -8,5 +8,5 @@ MAINTAINERCLEANFILES +=			\
 if FW_ERLANG_WANT_ERLRC
 install-data-hook:
 	mkdir -p "${DESTDIR}@ERLRCDIR@/applications"
-	touch "${DESTDIR}@ERLRCDIR@/applications/@FW_PACKAGE_NAME@"
+	touch "${DESTDIR}@ERLRCDIR@/applications/@FW_ERL_APP_NAME@"
 endif

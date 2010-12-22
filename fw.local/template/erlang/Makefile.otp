@@ -5,7 +5,7 @@ erlappprivdir="$(erlappdir)/priv"
 erlappincludedir="$(erlappdir)/include"
 erldocdir="@ERLDOCDIR@"
 
-SUFFIXES = .beam .erl .P .E .S
+SUFFIXES = .beam .erl .P .E .S .yrl .xrl
 
 FW_ERLCFLAGS = +debug_info -pa "$(FW_ROOT)/share/fw/template/erlang/" -pa "$(FW_ROOT)/share/fw.local/template/erlang" -pa "$(top_srcdir)/fw/template/erlang/" -pa "$(top_srcdir)/fw.local/template/erlang" -pa ../src -I ../src +'{ parse_transform, vsn_trans }' +"{ fw_package_version, '@FW_PACKAGE_VERSION@' }" +'{ parse_transform, oldrecord_trans }' @FW_EUNIT_ERLCFLAGS@
 
@@ -13,6 +13,9 @@ ERLCFLAGS ?= $(FW_ERLCFLAGS)
 
 DIALYZERFLAGS := $(DIALYZERFLAGS)
 DIALYZERFLAGS += @FW_EUNIT_ERLCFLAGS@
+
+LEEX_OPTIONS = @FW_LEEX_OPTIONS@
+YECC_OPTIONS = @FW_YECC_OPTIONS@
 
 # put an overly broad dependency on .hrl for now, 
 # which will cause some spurious extra compiles
@@ -53,6 +56,13 @@ DIALYZERFLAGS += @FW_EUNIT_ERLCFLAGS@
 	cd $$savedir && fw-exec template/erlang/check-app-file $<
 	@touch $@
 
+%.erl : %.xrl
+	erl -noshell -eval "leex:file(\"$<\", [${LEEX_OPTIONS}]), halt()"
+
+%.erl : %.yrl
+	erl -noshell -eval "yecc:file(\"$<\", [${YECC_OPTIONS}]), halt()"
+
+
 .PHONY: check-script-escript-%
 check-script-escript-%:
 	escript -s $*
@@ -67,5 +77,7 @@ CLEANFILES +=			\
   $(wildcard *.beam)		\
   $(wildcard .*.beam_ok)	\
   $(wildcard .*.erl_ok)		\
+  $(patsubst %.xrl,%.erl,$(wildcard *.xrl)) \
+  $(patsubst %.yrl,%.erl,$(wildcard *.yrl)) \
   .dialyzer_ok			\
   erl_crash.dump

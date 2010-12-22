@@ -54,13 +54,13 @@ test "x$erlrc" = x0 || {
       # package upgrade is to a later version; invoke erlrc-upgrade
       which erlrc-upgrade >/dev/null 2>/dev/null
       test \$? -ne 0 || \
-      erlrc-upgrade \"$FW_PACKAGE_NAME\" \"\$canon_old_version\" \"$FW_PACKAGE_VERSION\" || \
+      erlrc-upgrade \"$FW_ERL_APP_NAME\" \"\$canon_old_version\" \"$FW_PACKAGE_VERSION\" || \
       exit 1
     else
       # package upgrade is to an earlier version; invoke erlrc-downgrade
       which erlrc-downgrade >/dev/null 2>/dev/null
       test \$? -ne 0 || \
-      erlrc-downgrade \"$FW_PACKAGE_NAME\" \"$FW_PACKAGE_VERSION\" \"\$canon_old_version\" || \
+      erlrc-downgrade \"$FW_ERL_APP_NAME\" \"$FW_PACKAGE_VERSION\" \"\$canon_old_version\" || \
       exit 1
     fi
 "                                                               \

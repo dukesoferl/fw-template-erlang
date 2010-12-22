@@ -6,7 +6,8 @@ check_SCRIPTS += 	\
 
 CLEANFILES +=		\
   $(wildcard *.beam)	\
-  test-oldrecord.out
+  test-oldrecord.out \
+  test-hooks.out
 
 EXTRA_DIST +=		\
   postinst		\
@@ -15,6 +16,13 @@ EXTRA_DIST +=		\
   prerm			\
   tmp.app		\
   $(wildcard *.erl)
+
+MAINTAINERCLEANFILES += \
+  fw.local \
+  share
+
+maintainer-clean-local:
+	rm -rf cvstmp megatmp
 
 noinst_DATA =		\
   $(patsubst %, .%.script_ok, postinst postrm preinst prerm)
