@@ -1,3 +1,6 @@
+Version 0.1.53:
+  * missing file from dist
+
 Version 0.1.52:
   * Allow app name to be overridden via FW_ERL_APP_NAME set in fw-pkgin/config
   * Support leex and yecc files
