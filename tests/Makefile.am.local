@@ -15,6 +15,7 @@ EXTRA_DIST +=		\
   preinst		\
   prerm			\
   tmp.app		\
+  test-oldrecord.sh \
   $(wildcard *.erl)
 
 MAINTAINERCLEANFILES += \
