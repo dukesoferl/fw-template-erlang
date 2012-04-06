@@ -46,9 +46,11 @@ validate_args "erlang/load-config" "" ""
 
 fw_exec "build/automake/load-config" |                                       \
 perl -e 'BEGIN { $suggests = 0; }'                                           \
-     -e 'END { print "FW_ERL_APP_NAME=\${FW_ERL_APP_NAME-\${FW_PACKAGE_NAME}}\n"; }' \
+     -e 'END { print "FW_ERL_APP_NAME=\"$package_name\"" unless $app_name; }' \
      -e 'END { print "FW_PACKAGE_SUGGESTS=erlrc\n" unless $suggests; }'  \
      -pe '
+  m%FW_PACKAGE_NAME="(.*)"% and do { $package_name = $1 };
+  m%FW_ERL_APP_NAME="(.*?)"% and do { $app_name = $1 };
   m%FW_PACKAGE_SUGGESTS="(.*)"% and do { $suggests = 1 };
   s%FW_PACKAGE_SUGGESTS="(.*)"%FW_PACKAGE_SUGGESTS="erlrc, $1"%;
   s%FW_PACKAGE_BUILD_DEPENDS="(.*)"%FW_PACKAGE_BUILD_DEPENDS="fw-template-erlang, $1"%; 
