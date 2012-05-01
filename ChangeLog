@@ -1,3 +1,6 @@
+Version 0.1.55:
+  * dedup dist_erlappsrc_DATA
+
 Version 0.1.54:
   * ERL_APP_NAME related bugfixes
 
