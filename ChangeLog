@@ -1,3 +1,6 @@
+Version 0.1.56:
+  * rebuild with framewerk 0.4.2
+
 Version 0.1.55:
   * dedup dist_erlappsrc_DATA
 
