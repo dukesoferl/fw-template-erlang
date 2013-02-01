@@ -21,8 +21,6 @@ FW_PACKAGE_PROVIDES=""
 FW_PACKAGE_BUILD_DEPENDS="erlang [!darwin-i386], erlang-otp [darwin-i386]"
 FW_PACKAGE_BUILD_CONFLICTS=""
 
-FW_SUBVERSION_TAG_ROOT="https://fwtemplates.googlecode.com/svn/tags/fw-template-erlang"
-
 FW_DUPLOAD_ARGS=${FW_DUPLOAD_ARGS-"-t dukeslucid"}
 
 # scp+createrepo is used for submitting rpm packages to a package archive

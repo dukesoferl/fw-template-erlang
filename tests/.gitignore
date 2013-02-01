@@ -1,0 +1,15 @@
+*.beam
+.*.script_ok
+Makefile
+Makefile.am
+Makefile.in
+cvstmp
+fw.local
+megatmp
+share
+test-hooks
+test-hooks.out
+test-oldrecord.out
+test-template
+test-template.out
+tmp
