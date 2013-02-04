@@ -1,3 +1,6 @@
+Version 0.1.57:
+  * test app required some changes to pass R15B dialyzer
+
 Version 0.1.56:
   * rebuild with framewerk 0.4.2
 

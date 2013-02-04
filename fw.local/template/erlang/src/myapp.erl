@@ -8,10 +8,14 @@
 %-=====================================================================-
 
 start (_Type, _Args) ->
-    register (hello_world, spawn_link (fun hello/0)).
+  true = register (hello_world, spawn_link (fun hello/0)),
+  case whereis (hello_world) of
+    undefined -> {error, failed_to_start};
+    P -> { ok, P }
+  end.
 
 stop (_State) ->
-    ok.
+  ok.
 
 %-=====================================================================-
 %-                               Private                               -
@@ -32,7 +36,7 @@ hello (N) ->
 test () ->
   process_flag (trap_exit, true),
   start (void, void),
-  receive 
+  receive
     { 'EXIT', _Why, _Pid } -> 
       ok
   after 4000 ->
