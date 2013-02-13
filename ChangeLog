@@ -1,3 +1,6 @@
+Version 0.1.58:
+  * correctly output coverage numbers
+
 Version 0.1.57:
   * test app required some changes to pass R15B dialyzer
 
