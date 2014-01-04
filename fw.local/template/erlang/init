@@ -114,6 +114,7 @@ for dir in doc src tests
   fw_exec "revision/$revision/ignore-files"                     \
     '*.COVER.out'                                               \
     '*.test.out'                                                \
+    'TEST-*.xml'                                                \
     'module-*'                                                  \
 ) || fatal "erlang/init"
 

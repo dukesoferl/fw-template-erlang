@@ -28,7 +28,7 @@ case $command in
       end,
       cover:compile_beam_directory ("../src"),
       io:format ("~p:test () ...", [ Module ]),
-      ok = Module:test (),
+      eunit:test(Module,[{report, {eunit_surefire,[{dir,"."}]}}]),
       cover:analyse_to_file (Module).
     ' -noshell -s init stop -extra "$module" 2>&1 > $module.test.out || exit $?
 

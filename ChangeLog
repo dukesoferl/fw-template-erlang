@@ -1,3 +1,6 @@
+Version 0.2.0:
+  * turn on surefire output for eunit tests
+
 Version 0.1.58:
   * correctly output coverage numbers
 
