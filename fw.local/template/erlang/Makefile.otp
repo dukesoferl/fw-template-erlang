@@ -34,11 +34,13 @@ YECC_OPTIONS = @FW_YECC_OPTIONS@
 	erlc +"'S'" ${ERLCFLAGS} ${$*_ERLCFLAGS} $<
 
 .%.beam_ok: %.beam
-	dialyzer ${DIALYZERFLAGS} ${$*_DIALYZERFLAGS} -c $*.beam
+	dialyzer -o ../tests/dialyzer.log ${DIALYZERFLAGS} ${$*_DIALYZERFLAGS} -c $*.beam
+	cat ../tests/dialyzer.log
 	touch $@
 
 .%.erl_ok: %.erl
-	dialyzer ${DIALYZERFLAGS} ${$*_DIALYZERFLAGS} -c $*.erl
+	dialyzer -o ../tests/dialyzer.log ${DIALYZERFLAGS} ${$*_DIALYZERFLAGS} -c $*.erl
+	cat ../tests/dialyzer.log
 	touch $@
 
 .%.app_ok: %.app
@@ -68,7 +70,8 @@ check-script-escript-%:
 	escript -s $*
 
 .dialyzer_ok: $(wildcard *.erl)
-	dialyzer ${DIALYZERFLAGS} --src -c .
+	dialyzer -o ../tests/dialyzer.log ${DIALYZERFLAGS} --src -c .
+	cat ../tests/dialyzer.log
 	touch $@
 
 CLEANFILES +=			\

@@ -13,25 +13,63 @@ touch .flass
 case $command in
   ./module-*)
     module=${command#./module-}
-
     erl +A 10 -sname $$ -pa ../src -eval '
       Module = list_to_atom (hd (init:get_plain_arguments ())),
-      { value, { exports, E } } = lists:keysearch (exports,
-                                                   1,
-                                                   Module:module_info ()),
-      case lists:member ({ test, 0 }, E) of
-        true -> ok;
-        false -> io:format ("error, ~p:test/0 not exported; " ++
-                            "possibly you do not have eunit installed~n",
-                            [ Module ]),
-                 halt (77)
-      end,
       cover:compile_beam_directory ("../src"),
-      io:format ("~p:test () ...", [ Module ]),
-      eunit:test(Module,[{report, {eunit_surefire,[{dir,"."}]}}]),
-      cover:analyse_to_file (Module).
+      Result =
+        case erlang:function_exported (Module, test, 0) of
+          true ->
+            io:format ("~p:test () ...", [ Module ]),
+            R =
+              case eunit:test(Module,[{report, {eunit_surefire,[{dir,"."}]}}]) of
+                ok -> 0;
+                _ -> 1
+              end,
+            io:format ("~n"),
+            R;
+          false ->
+            io:format ("~p:test () ... NO TESTS", [ Module ]),
+            77
+        end,
+      cover:analyse_to_file (Module),
+      cover:analyse_to_file (Module, [html]),
+      halt (Result).
     ' -noshell -s init stop -extra "$module" 2>&1 > $module.test.out || exit $?
 
+  ;;
+  ./all)
+    erl +A 10 -sname $$ -pa ../src  \
+      $FW_OTP_TEST_ERL_EXTRA_ARGS \
+        -eval '
+          cover:compile_beam_directory ("../src"),
+          Result =
+            lists:sum ([
+              case erlang:function_exported (Module, test, 0) of
+                true ->
+                  io:format ("~p:test () ...", [ Module ]),
+                  R =
+                    case eunit:test(Module,[{report, {eunit_surefire,[{dir,"."}]}}]) of
+                      ok -> 0;
+                      _ -> 1
+                    end,
+                  io:format ("~n"),
+                  R;
+                false ->
+                  io:format ("~p NO TESTS ...~n", [ Module ]),
+                  0
+              end
+              || Module
+              <- cover:modules()
+              ]),
+          [ begin
+              cover:analyse_to_file (Module),
+              cover:analyse_to_file (Module, [html])
+            end
+            || Module
+            <- cover:modules()
+          ],
+          halt (Result).
+        ' -noshell -s init stop 2>&1 > erlang-otp.test.out || exit $?
   ;;
   *)
     "$command" "$@" || exit $?

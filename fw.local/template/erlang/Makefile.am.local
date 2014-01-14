@@ -9,7 +9,8 @@ dist_template_DATA = 			\
   oldrecord_trans.erl			\
   oldrecord_trans.beam			\
   vsn_trans.erl				\
-  vsn_trans.beam
+  vsn_trans.beam \
+  sonar-project.properties.in
 
 dist_template_SCRIPTS +=		\
   check-app-file			\

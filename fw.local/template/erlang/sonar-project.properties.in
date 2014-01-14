@@ -1,0 +1,16 @@
+# Required metadata
+sonar.projectKey=@FW_PACKAGE_ORGANIZATION@:@FW_PACKAGE_NAME@
+sonar.projectName=@FW_PACKAGE_NAME@
+sonar.projectVersion=@FW_PACKAGE_VERSION@
+
+# project description
+sonar.projectDescription=@FW_PACKAGE_SHORT_DESCRIPTION@
+
+# Comma-separated paths to directories with sources (required)
+sonar.sources=src
+
+# Language
+sonar.language=erlang
+
+# Encoding of sources files
+sonar.sourceEncoding=ISO-8859-1

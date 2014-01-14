@@ -113,10 +113,16 @@ for dir in doc src tests
   cd tests &&                                                   \
   fw_exec "revision/$revision/ignore-files"                     \
     '*.COVER.out'                                               \
+    '*.COVER.html'                                              \
     '*.test.out'                                                \
     'TEST-*.xml'                                                \
     'module-*'                                                  \
 ) || fatal "erlang/init"
+
+(
+  fw_exec "revision/$revision/ignore-files"                     \
+    'sonar-project.properties' \
+) || fatal "erlang/inig"
 
 (
   cd fw-pkgin &&

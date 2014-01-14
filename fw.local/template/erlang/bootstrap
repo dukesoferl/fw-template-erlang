@@ -86,6 +86,7 @@ for dir in . doc src tests
     for x in Makefile_dot_am            \
              Makefile.otp               \
              configure.ac               \
+             sonar-project.properties.in \
              fw-erl-app-template.app.in \
              otp-test-wrapper.sh
       do

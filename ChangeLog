@@ -1,3 +1,8 @@
+Version 0.3.0: Sonar Support
+  * add sonar properties file
+  * redirect dialyzer output to a file
+  * turn on html output for cover
+
 Version 0.2.0:
   * turn on surefire output for eunit tests
 
