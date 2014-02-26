@@ -171,5 +171,8 @@ for dir in doc src tests
 # included application directive.  should be an erlang expression which 
 # evaluates to a proplist (list of key-value tuple pairs).
 # FW_ERL_APP_EXTRA="[]"
+
+# uncomment to add extra erlrc/compiler options like '+bin_opt_info'
+# FW_ERLRC_EXTRA_OPTIONS="+bin_opt_info"
 EOD
 ) || fatal "erlang/init"
