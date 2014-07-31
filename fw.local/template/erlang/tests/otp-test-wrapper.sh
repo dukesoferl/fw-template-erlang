@@ -78,11 +78,11 @@ esac
 
 find . -name '*.COVER.out' -and -newer .flass -print | \
   perl -MIO::File -lne 'chomp;
-                       $fh = new IO::File $_, "r" or die $!;
+                       my $fh = new IO::File $_, "r" or die $!;
                        my @total_lines = grep { ! / 0\.\.\|  -module \(/ } <$fh>;
                        my @covered_lines = grep {/[0-9]+\.\./} @total_lines;
                        my $bad = grep / 0\.\.\|/, @total_lines;
                        my $total = scalar @total_lines;
                        my $total_covered = scalar @covered_lines;
-                       my $perc = int (100 * (1.0 - ($bad / $total_covered)));
+                       my $perc = $total_covered > 0 ? int(100 * (1.0 - ($bad / $total_covered))) : "-";
                        print "$perc% of $total lines covered in $_"'
