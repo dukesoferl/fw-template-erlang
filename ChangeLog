@@ -1,3 +1,7 @@
+Version 0.5.0:
+ * fix division-by-zero error when file has no executable lines
+ * add initial support to compile .dtl files
+
 Version 0.4.0:
  * add support for extra compile options
 

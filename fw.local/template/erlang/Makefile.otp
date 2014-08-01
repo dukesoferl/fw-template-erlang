@@ -5,7 +5,7 @@ erlappprivdir="$(erlappdir)/priv"
 erlappincludedir="$(erlappdir)/include"
 erldocdir="@ERLDOCDIR@"
 
-SUFFIXES = .beam .erl .P .E .S .yrl .xrl
+SUFFIXES = .beam .erl .P .E .S .yrl .xrl .dtl
 
 FW_ERLCFLAGS = +debug_info -pa "$(FW_ROOT)/share/fw/template/erlang/" -pa "$(FW_ROOT)/share/fw.local/template/erlang" -pa "$(top_srcdir)/fw/template/erlang/" -pa "$(top_srcdir)/fw.local/template/erlang" -pa ../src -I ../src +'{ parse_transform, vsn_trans }' +"{ fw_package_version, '@FW_PACKAGE_VERSION@' }" +'{ parse_transform, oldrecord_trans }' @FW_EUNIT_ERLCFLAGS@ @FW_ERLRC_EXTRA_OPTIONS@
 
@@ -23,6 +23,9 @@ YECC_OPTIONS = @FW_YECC_OPTIONS@
 
 %.beam: %.erl $(wildcard *.hrl)
 	erlc ${ERLCFLAGS} ${$*_ERLCFLAGS} $<
+
+%.beam: %.dtl
+	erl -eval 'erlydtl_compiler:compile_file("$<","$*", [{out_dir, "."}])' -eval 'init:stop()' -noshell
 
 %.P: %.erl $(wildcard *.hrl)
 	erlc +"'P'" ${ERLCFLAGS} ${$*_ERLCFLAGS} $<
