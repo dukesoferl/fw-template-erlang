@@ -8,6 +8,7 @@ CLEANFILES = 			\
   $(wildcard module-*) 		\
   $(wildcard *.test.out) 	\
   $(wildcard *.COVER.out)	\
+  $(wildcard *.COVER.html)	\
   $(wildcard TEST-*.xml)	\
   $(check_SCRIPTS)
 
