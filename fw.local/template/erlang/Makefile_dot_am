@@ -7,7 +7,7 @@ MAINTAINERCLEANFILES += \
   Makefile.otp
 
 if FW_ERLANG_WANT_ERLRC
-install-data-hook:
+install-data-hook::
 	mkdir -p "${DESTDIR}@ERLRCDIR@/applications"
 	touch "${DESTDIR}@ERLRCDIR@/applications/@FW_ERL_APP_NAME@"
 endif
