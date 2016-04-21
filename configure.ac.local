@@ -8,3 +8,24 @@ AC_CONFIG_FILES([fw.local/m4/Makefile
 
 AC_CONFIG_FILES([tests/test-hooks],
                 [chmod +x tests/test-hooks])
+
+AC_PATH_PROG([GMAKE], [gmake], [make])
+
+AC_MSG_CHECKING([whether '$GMAKE' is gnu make])
+cat <<EOD > testmak.$$
+.BEGIN:
+	@exit 1
+
+nop:
+	echo "" >/dev/null 2>/dev/null
+EOD
+$GMAKE -f testmak.$$ nop >/dev/null 2>/dev/null
+rv=$?
+rm -f testmak.$$
+if test $rv = 0
+  then
+    AC_MSG_RESULT([yes])
+  else
+    AC_MSG_RESULT([no])
+    AC_MSG_ERROR([can't find gnu make])
+  fi

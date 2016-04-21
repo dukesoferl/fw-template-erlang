@@ -1,4 +1,6 @@
 *.beam
+*.log
+*.trs
 .*.script_ok
 Makefile
 Makefile.am

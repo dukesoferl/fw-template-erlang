@@ -17,18 +17,17 @@ if test -d ../fw/bin
     export PATH
   fi
 
-if test -z "$MAKE"
-  then
-    gmake=`which gmake`
-
-    if test $? = 0 
-      then
-        MAKE=gmake
-      else
-        MAKE=make
-      fi
-  fi
-
+# fix for newer automake which doesn't seem to work well when called
+# recursively.
+# what was happening is that the TEST_LOGS at the top level were sent
+# to sub-levels and caused errors like
+#
+# fatal: making test-suite.log: failed to create test-canonicalize-package.trs
+# fatal: making test-suite.log: failed to create test-canonicalize-package.log
+#
+# so this fixes that by zeroing out the TEST_LOGS
+MAKEFLAGS=`echo "$MAKEFLAGS" | perl -pe 's/TEST_LOGS=([^=]*)/TEST_LOGS=/'`
+export MAKEFLAGS
 (
 set -x
 rm -rf cvstmp
@@ -68,7 +67,7 @@ cp `env PATH="../../../fw/bin:$PATH" which fw-package` fw/bin
 # will not be installed at this point
 perl -pi -e 's/^.*fw-template-erlang.*$//g' fw/template/erlang/load-config
 
-./bootstrap && ./build --disable-erlrc && env FW_SKIP_TESTS=1 "${MAKE}" package 
+./bootstrap && ./build --disable-erlrc && env FW_SKIP_TESTS=1 "@GMAKE@" package 
 
 case "@FW_NATIVE_PACKAGE_TYPE@" in
   deb)
@@ -93,7 +92,7 @@ case "@FW_NATIVE_PACKAGE_TYPE@" in
     ;;
 esac
 
-./build && env FW_SKIP_TESTS=1 "${MAKE}" package 
+./build && env FW_SKIP_TESTS=1 "@GMAKE@" package 
 
 case "@FW_NATIVE_PACKAGE_TYPE@" in
   deb)

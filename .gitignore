@@ -20,3 +20,4 @@ fw-pkgout
 fw-pkgtmp
 install-sh
 missing
+test-driver

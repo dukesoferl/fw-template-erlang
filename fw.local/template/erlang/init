@@ -117,12 +117,14 @@ for dir in doc src tests
     '*.test.out'                                                \
     'TEST-*.xml'                                                \
     'module-*'                                                  \
+    '*.log'                                                     \
+    '*.trs'                                                     \
 ) || fatal "erlang/init"
 
 (
   fw_exec "revision/$revision/ignore-files"                     \
     'sonar-project.properties' \
-) || fatal "erlang/inig"
+) || fatal "erlang/init"
 
 (
   cd fw-pkgin &&
