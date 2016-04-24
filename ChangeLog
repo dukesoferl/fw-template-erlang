@@ -1,3 +1,6 @@
+Version 0.6.2:
+  * automake tests work differently in Centos7, so more fixes
+
 Version 0.6.1:
  * minor fixes for Centos7
 

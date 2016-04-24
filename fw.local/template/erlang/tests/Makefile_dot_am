@@ -25,6 +25,7 @@ EXTRA_DIST = 			\
 
 module-%: 
 	@touch $@
+	@chmod +x $@
 
 include $(top_srcdir)/Makefile.otp
 include $(top_srcdir)/fw/build/automake/check-shell.am
